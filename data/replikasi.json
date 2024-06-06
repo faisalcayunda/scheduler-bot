@@ -1,0 +1,90 @@
+{
+      "Majalengka Kab": {
+            "url": "https://data.majalengkakab.go.id",
+            "password": "prov_administrator"
+      },
+      "Indramayu Kab": {
+            "url": "https://data.indramayukab.go.id",
+            "password": "prov_administrator"
+      },
+      "Bandung Kota": {
+            "url": "https://admindata.bandung.go.id",
+            "password": "prov_administrator"
+      },
+      "Bandung Barat Kab": {
+            "url": "https://data.bandungbaratkab.go.id",
+            "password": "prov_administrator"
+      },
+      "Cimahi Kota": {
+            "url": "https://data.cimahikota.go.id",
+            "password": "prov_administrator"
+      },
+      "Sukabumi Kota": {
+            "url": "https://data.sukabumikota.go.id",
+            "password": "prov_administrator"
+      },
+      "Sukabumi Kab": {
+            "url": "https://admindata.sukabumikab.go.id",
+            "password": "prov_administrator"
+      },
+      "Bekasi Kab": {
+            "url": "https://data.bekasikab.go.id",
+            "password": "prov_administrator"
+      },
+      "Banjar Kota": {
+            "url": "https://adminsadata.banjarkota.go.id",
+            "password": "prov_administrator"
+      },
+      "Cirebon Kota": {
+            "url": "https://admindata.cirebonkota.go.id",
+            "password": "prov_administrator"
+      },
+      "Cirebon Kab": {
+            "url": "https://data.cirebonkab.go.id",
+            "password": "prov_administrator"
+      },
+      "Kuningan Kab": {
+            "url": "https://data.kuningankab.go.id",
+            "password": "prov_administrator"
+      },
+      "Pangandaran Kab": {
+            "url": "https://data.pangandarankab.go.id",
+            "password": "prov_administrator"
+      },
+      "Cianjur Kab": {
+            "url": "https://data.cianjurkab.go.id",
+            "password": "prov_administrator"
+      },
+      "Tasikmalaya Kota": {
+            "url": "https://admindata.tasikmalayakota.go.id",
+            "password": "prov_administrator"
+      },
+      "Tasikmalaya Kab": {
+            "url": "https://data.tasikmalayakab.go.id",
+            "password": "prov_administrator"
+      },
+      "Subang Kab": {
+            "url": "https://data.subang.go.id",
+            "password": "prov_administrator"
+      },
+      "Purwakarta Kab": {
+            "url": "https://data2.purwakartakab.go.id",
+            "password": "prov_administrator"
+      },
+      "Bekasi Kota": {
+            "url": "https://data.bekasikota.go.id",
+            "password": "prov_administrator"
+      },
+      "Bogor Kab": {
+            "url": "https://data.bogorkab.go.id",
+            "password": "prov_administrator"
+      },
+      "Karawang Kab": {
+            "url": "https://data.karawangkab.go.id",
+            "password": "prov_administrator"
+      },
+      "Bogor Kota": {
+            "url": "https://portaldata.kotabogor.go.id",
+            "password": "prov_administrator"
+      }
+}
