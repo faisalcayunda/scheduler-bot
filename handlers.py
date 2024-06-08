@@ -4,7 +4,7 @@ from credentials import BOT_USERNAME
 import json, httpx, secrets, string
 from datetime import datetime
 
-urls:dict = json.load(open("./data/replikasi.json"))
+base_data:dict = json.load(open("./data/replikasi.json"))
 
 def handle_response(text: str) -> str:
     text = text.lower()
@@ -22,7 +22,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f'Halo {update.message.from_user.first_name}, bot sudah berjalan loh!')
     
 async def get_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    temp = list(urls.keys())
+    temp = list(base_data.keys())
     message = ""
     for i in range(len(temp)):
         message += "{:<5}{:<20}\n".format(str(i+1)+".", temp[i])
@@ -39,7 +39,7 @@ async def check_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     async with httpx.AsyncClient(verify=False) as client:
         if not args:
-            for key, value in urls.items():
+            for key, value in base_data.items():
                 url = value["url"]
                 response = await client.get(url=url)
                 if response.status_code in {200}:
@@ -52,7 +52,7 @@ async def check_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             try:
                 region = " ".join(args).title()
-                url = urls[region]["url"]
+                url = base_data[region]["url"]
                 response = await client.get(url)
                 if response.status_code in {200}:
                     status = "✅"
@@ -66,37 +66,30 @@ async def check_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 
             
     
-async def regenerate_password(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def generate_password(update: Update, context: ContextTypes.DEFAULT_TYPE):
     alpha = string.ascii_letters + string.digits
     new_password = "".join(secrets.choice(alpha) for _ in range(20))
     print("Generating new password: ", new_password)
-    current_data = urls.copy()
+    current_data = base_data.copy()
     message = ""
     index = 1
     
     async with httpx.AsyncClient(verify=False) as client:
-        for key, value in urls.items():
+        for key, value in base_data.items():
             url = value["url"]+"/api"
             admin_username = "prov_administrator"
             cur_password = value["password"]
             response = await client.post(url=url+"/auth/signin", json={"username":admin_username, "password":cur_password})
             if response.status_code == 200:
-                try:
-                    token = response.json()["data"]["jwt"]
-                    response = await client.get(url=url+"/user/prov_administrator", headers={"Authorization": "Bearer "+token})
-                    if response.status_code == 200:
-                        json_data = {"password": new_password}
-                        response = await client.put(url=url+"/user/prov_administrator", headers={"Authorization": "Bearer "+token}, json=json_data)
-                        if response.status_code == 200:
-                            print("Berhasil merubah password ", key)
-                            current_data[key]["password"]= new_password
-                            message += "{:<5}{} > {}\n".format(str(index)+".", key, new_password)
-                        else:
-                            print("Gagal merubah password ", key)
-                            message += "{:<5}{} > {}\n".format(str(index)+".", key, cur_password)
-                    else:
-                        message += "{:<5}{} > {}\n".format(str(index)+".", key, cur_password)
-                except KeyError:
+                token = response.json()["data"]["jwt"]
+                json_data = {"old":cur_password,"password": new_password}
+                response = await client.put(url=url+"/user/change/prov_administrator", headers={"Authorization": "Bearer "+token}, json=json_data)
+                if response.status_code == 200:
+                    print("Berhasil merubah password ", key)
+                    current_data[key]["password"]= new_password
+                    message += "{:<5}{} > {}\n".format(str(index)+".", key, new_password)
+                else:
+                    print("Gagal merubah password ", key)
                     message += "{:<5}{} > {}\n".format(str(index)+".", key, cur_password)
             else:
                 message += "{:<5}{} > {}\n".format(str(index)+".", key, "Gagal mendapatkan akun prov")
@@ -104,7 +97,7 @@ async def regenerate_password(update: Update, context: ContextTypes.DEFAULT_TYPE
                 
         with open("./data/replikasi.json", "w") as data_file:
             with open(f"./dumps/{datetime.now().strftime()}", "w") as dump_file:
-                json.dump(urls, dump_file, indent=6)
+                json.dump(base_data, dump_file, indent=6)
             
             json.dump(current_data, data_file,indent=6)
             
@@ -134,3 +127,4 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
     
+
